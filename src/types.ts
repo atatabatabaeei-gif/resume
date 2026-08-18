@@ -4,9 +4,10 @@ export type PhotoShape = 'circle' | 'rounded' | 'square';
 export type PhotoSize = 'sm' | 'md' | 'lg';
 
 export type LayoutTemplate = 
-  | 'modern-header'     // Top modern gradient/colored bar, clean 1-column or 2-column body
-  | 'sidebar-left'      // Classic 2-column with left sidebar
+  | 'academic-faculty'  // شناسنامه رسمی و رزومه علمی هیئت علمی / دانشگاهی
   | 'sidebar-right'     // 2-column with right sidebar (ideal for Persian RTL)
+  | 'sidebar-left'      // Classic 2-column with left sidebar
+  | 'modern-header'     // Top modern gradient/colored bar, clean 1-column or 2-column body
   | 'minimal-classic'   // Elegant timeless black & accent 1-column layout
   | 'executive-banner'  // Premium banner with dark header block and structured cards
   | 'cards-split';      // Modern split cards style
@@ -33,6 +34,13 @@ export interface PersonalInfo {
   telegram: string;
   summary: string;
   summaryTitle: string;
+  // Academic & Institutional Specific Fields
+  institution?: string;      // e.g. "دانشگاه صنعتی شریف"
+  faculty?: string;          // e.g. "دانشکده مهندسی مکانیک"
+  systemTitle?: string;      // e.g. "سامانه جامع ارتباط با صنعت و پژوهش‌های تخصصی — شریف"
+  documentTitle?: string;    // e.g. "شناسنامه رسمی و رزومه علمی هیئت علمی"
+  academicRank?: string;     // e.g. "استادیار — طراحی کاربردی — پایش وضعیت"
+  issueDate?: string;        // e.g. "۱۴۰۵/۵/۲۶"
 }
 
 export interface ExperienceItem {

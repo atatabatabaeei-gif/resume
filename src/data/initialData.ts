@@ -2,6 +2,20 @@ import { ColorPreset, ResumeData } from '../types';
 
 export const COLOR_PRESETS: ColorPreset[] = [
   {
+    id: 'sharif-academic',
+    nameFa: 'سازمانی و دانشگاهی (شریف)',
+    nameEn: 'Academic & Institutional',
+    theme: {
+      primaryColor: '#0f172a', // Dark official slate
+      secondaryColor: '#ea580c', // Academic orange / amber
+      accentColor: '#f97316',
+      textColor: '#1e293b',
+      headingColor: '#0f172a',
+      backgroundColor: '#ffffff',
+      sidebarBackground: '#fffaf5',
+    },
+  },
+  {
     id: 'persian-indigo',
     nameFa: 'سورمه‌ای و نیلی دیپلماتیک',
     nameEn: 'Persian Indigo',
@@ -516,6 +530,179 @@ export const SAMPLE_RESUME_EN: ResumeData = {
       items: [
         { id: 'lang-en1', name: 'English', proficiency: 'Native / Bilingual', level: 5 },
         { id: 'lang-en2', name: 'French', proficiency: 'Professional Working (C1)', level: 4 },
+      ],
+    },
+  ],
+};
+
+export const SAMPLE_RESUME_ACADEMIC_FA: ResumeData = {
+  id: 'academic-faculty-sample',
+  title: 'شناسنامه رسمی و رزومه علمی هیئت علمی',
+  language: 'fa',
+  fontFamily: 'Vazirmatn',
+  fontSize: 'base',
+  spacing: 'normal',
+  layoutTemplate: 'academic-faculty',
+  headerStyle: 'accent-border',
+  paperSize: 'A4',
+  theme: COLOR_PRESETS[0].theme,
+  skillsDisplayType: 'chips',
+  personalInfo: {
+    fullName: 'دکتر سمیه محمدی',
+    jobTitle: 'استادیار گروه طراحی کاربردی، مدیر روابط عمومی دانشگاه صنعتی شریف',
+    academicRank: 'استادیار — طراحی کاربردی — پایش وضعیت (Condition Monitoring) و ارتعاشات صنعتی',
+    institution: 'دانشگاه صنعتی شریف',
+    faculty: 'دانشکده مهندسی مکانیک',
+    systemTitle: 'سامانه جامع ارتباط با صنعت و پژوهش‌های تخصصی — شریف',
+    documentTitle: 'شناسنامه رسمی و رزومه علمی هیئت علمی',
+    issueDate: '۱۴۰۵/۵/۲۶',
+    photoUrl: DEFAULT_AVATAR,
+    showPhoto: true,
+    photoShape: 'rounded',
+    photoSize: 'md',
+    photoBorder: true,
+    email: 'mohammadi@sharif.edu',
+    phone: '۰۲۱-۶۶۱۶۴۰۰۰',
+    location: 'دانشگاه صنعتی شریف — خیابان آزادی، تهران، ایران',
+    website: 'https://sharif.edu/~mohammadi',
+    linkedin: 'linkedin.com/in/somayeh-mohammadi',
+    github: '',
+    telegram: '',
+    summaryTitle: 'معرفی',
+    summary: 'دکتر سمیه محمدی دارای دکتری مهندسی مکانیک از دانشگاه صنعتی امیرکبیر (۱۴۰۰) و استادیار دانشکده مهندسی مکانیک دانشگاه صنعتی شریف است. ایشان به عنوان مدیر روابط عمومی و ارتباطات دانشگاه صنعتی شریف فعالیت می‌نمایند.',
+  },
+  sections: [
+    {
+      id: 'summary-section',
+      type: 'summary',
+      title: 'بیوگرافی و سوابق علمی',
+      enabled: true,
+      columnPosition: 'main',
+    },
+    {
+      id: 'academic-exp-section',
+      type: 'experience',
+      title: 'تجربه‌های صنعتی و پروژه‌ها',
+      enabled: true,
+      columnPosition: 'main',
+      items: [
+        {
+          id: 'ac-exp-1',
+          company: 'نفت، گاز و پتروشیمی',
+          position: 'مشاور و مجری پایش وضعیت تجهیزات',
+          startDate: '۱۳۹۸',
+          endDate: 'اکنون',
+          isCurrent: true,
+          description: 'پتروشیمی شهید تندگویان، پالایشگاه اول پارس جنوبی',
+          highlights: [
+            'عیب‌یابی تخصصی ارتعاشات توربین‌ها و کمپرسورهای فرآیندی',
+            'پیاده‌سازی متدولوژی پایش برخط سلامت ماشین‌آلات',
+          ],
+        },
+        {
+          id: 'ac-exp-2',
+          company: 'خودرو و حمل‌ونقل',
+          position: 'پژوهشگر ارشد و مشاور فنی',
+          startDate: '۱۳۹۶',
+          endDate: '۱۴۰۱',
+          isCurrent: false,
+          description: 'خودروسازی زامیاد، صنایع لاستیک بارز، مرکز تحقیقات لاستیک، مرکز تحقیقات سایپا',
+          highlights: [
+            'طراحی و ارزیابی استاندارد المان‌های دینامیکی و تست‌های دوام',
+          ],
+        },
+        {
+          id: 'ac-exp-3',
+          company: 'هوافضا، فولاد و معدن',
+          position: 'همکاری و توسعه صنعتی',
+          startDate: '۱۳۹۵',
+          endDate: '۱۴۰۰',
+          isCurrent: false,
+          description: 'شرکت توربوآژیر، معدن مس سرچشمه، شرکت کابل صنعت آزما و مجموعه گردشگری توچال',
+          highlights: [
+            'پایش وضعیت کابل‌های سازه‌های حمل‌ونقل کابلی و تجهیزات دوار سنگین',
+          ],
+        },
+      ],
+    },
+    {
+      id: 'academic-skills-section',
+      type: 'skills',
+      title: 'حوزه‌های تخصصی و مهارت‌ها',
+      enabled: true,
+      columnPosition: 'main',
+      items: [
+        {
+          id: 'ac-sk-1',
+          name: 'طراحی/تحلیل/ بهینه‌سازی، ساخت/نصب/ استانداردسازی سیستم‌های تفریحی، ورزشی، گردشگری مبتنی بر کابل',
+          level: 5,
+          category: 'طراحی و تحلیل',
+        },
+        {
+          id: 'ac-sk-2',
+          name: 'پایش وضعیت سلامت کابل‌های فولادی به روش نشت شار مغناطیسی (MFL)',
+          level: 5,
+          category: 'پایش وضعیت',
+        },
+        {
+          id: 'ac-sk-3',
+          name: 'پایش وضعیت سلامت و عیب‌یابی تجهیزات دوار به روش‌های ارتعاش‌سنجی، ترموگرافی، آنالیز روغن و آنالیز مودال',
+          level: 5,
+          category: 'تجهیزات دوار',
+        },
+      ],
+    },
+    {
+      id: 'academic-achievements-section',
+      type: 'projects',
+      title: 'برترین دستاوردها و فناوری‌ها',
+      enabled: true,
+      columnPosition: 'main',
+      items: [
+        {
+          id: 'ac-ach-1',
+          title: 'خرید و ساخت انواع تجهیزات پایش سلامت کابل‌های فولادی',
+          description: 'بومی‌سازی دستگاه بازرسی غیرمخرب کابل با حسگرهای شار مغناطیسی پیشرفته.',
+        },
+        {
+          id: 'ac-ach-2',
+          title: 'توسعه نرم‌افزار هوشمند طراحی و تعمیرات تجهیزات تفریحی، ورزشی و گردشگری مبتنی بر کابل',
+          description: 'سامانه محاسباتی دینامیک خطوط کابلی و پیش‌بینی عمر خستگی سازه.',
+        },
+        {
+          id: 'ac-ach-3',
+          title: 'همکاری در توسعه نرم‌افزار عیب‌یابی هوشمند تجهیزات دوار با مدیریت جناب آقای دکتر بهزاد',
+          description: 'توسعه الگوریتم‌های هوش مصنوعی برای دسته‌بندی عیوب ارتعاشی بیرینگ و چرخدنده‌ها.',
+        },
+      ],
+    },
+    {
+      id: 'academic-coop-section',
+      type: 'custom',
+      title: 'مایل به همکاری با شیوه‌های زیر',
+      enabled: true,
+      columnPosition: 'main',
+      items: [
+        {
+          id: 'ac-coop-1',
+          title: 'مشاوره / عارضه‌یابی کوتاه‌مدت',
+          description: 'بررسی سریع علل خرابی و ارائه راهکارهای فوری مهندسی در صنایع مختلف.',
+        },
+        {
+          id: 'ac-coop-2',
+          title: 'پروژه R&D و طراحی محصول',
+          description: 'طراحی صفر تا صد سامانه‌های مکانیکی و پایش وضعیت متناسب با نیاز کارفرما.',
+        },
+        {
+          id: 'ac-coop-3',
+          title: 'تست، استانداردسازی، تاییدیه',
+          description: 'انجام آزمون‌های آزمایشگاهی و میدانی جهت صدور گواهی سلامت فنی تجهیزات.',
+        },
+        {
+          id: 'ac-coop-4',
+          title: 'آموزش نیروی صنعت',
+          description: 'برگزاری کارگاه‌ها و دوره‌های تخصصی پایش وضعیت، آنالیز ارتعاشات و استانداردهای کابل.',
+        },
       ],
     },
   ],

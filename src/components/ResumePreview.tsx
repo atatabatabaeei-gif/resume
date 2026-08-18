@@ -18,7 +18,11 @@ import {
   CheckCircle2,
   ZoomIn,
   ZoomOut,
-  Maximize2
+  Maximize2,
+  Building2,
+  CalendarCheck,
+  FileText,
+  UserCheck
 } from 'lucide-react';
 import { 
   ResumeData, 
@@ -635,6 +639,255 @@ export const ResumePreview: React.FC<ResumePreviewProps> = ({
               <span className="bg-red-600 text-white text-[10px] px-2 py-0.5 rounded font-mono font-bold whitespace-nowrap absolute start-4 -top-3 shadow-md">
                 انتهای صفحه اول A4 (Page 1 End)
               </span>
+            </div>
+          )}
+
+          {/* ========================================================================= */}
+          {/* LAYOUT 0: ACADEMIC & FACULTY (شناسنامه رسمی و رزومه علمی هیئت علمی) */}
+          {/* ========================================================================= */}
+          {layoutTemplate === 'academic-faculty' && (
+            <div className="p-8 sm:p-10 min-h-[297mm] flex flex-col justify-between bg-white text-slate-900">
+              
+              <div>
+                {/* 1. Official Top Document Header */}
+                <div className="text-center pb-4 mb-4">
+                  <div className="flex items-center justify-center gap-2 text-xs font-semibold text-slate-700 mb-1">
+                    <span 
+                      className="w-2.5 h-2.5 rounded-xs shrink-0" 
+                      style={{ backgroundColor: theme.secondaryColor || '#ea580c' }} 
+                    />
+                    <span>{personalInfo.institution || 'دانشگاه صنعتی شریف'} — {personalInfo.faculty || 'دانشکده مهندسی مکانیک'}</span>
+                  </div>
+                  
+                  <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-slate-950 my-1.5">
+                    {personalInfo.documentTitle || (isRtl ? 'شناسنامه رسمی و رزومه علمی هیئت علمی' : 'Official Academic Faculty Resume')}
+                  </h1>
+                  
+                  <div className="text-xs text-slate-500 font-medium">
+                    {personalInfo.systemTitle || 'سامانه جامع ارتباط با صنعت و پژوهش‌های تخصصی — شریف'}
+                  </div>
+
+                  {/* Horizontal dividing solid line */}
+                  <div className="mt-3.5 border-b-2 border-slate-900 w-full" />
+                </div>
+
+                {/* 2. Official Faculty Member Identity Box */}
+                <div className="border-2 border-slate-900 rounded-sm p-4 sm:p-5 mb-6 relative bg-white">
+                  
+                  {/* Top Specialty / Academic Rank Dark Tag */}
+                  {(personalInfo.academicRank || personalInfo.jobTitle) && (
+                    <div className="mb-3">
+                      <span className="inline-block bg-slate-950 text-white text-[11px] sm:text-xs font-bold px-3 py-1 rounded-xs tracking-wide">
+                        {personalInfo.academicRank || personalInfo.jobTitle}
+                      </span>
+                    </div>
+                  )}
+
+                  <div className="flex flex-col sm:flex-row items-center justify-between gap-5">
+                    {/* Details Column */}
+                    <div className="grow text-center sm:text-start">
+                      <h2 className="text-2xl sm:text-3xl font-black text-slate-950 tracking-tight">
+                        {personalInfo.fullName || (isRtl ? 'دکتر سمیه محمدی' : 'Full Name')}
+                      </h2>
+                      <div className="text-xs sm:text-sm font-semibold text-slate-700 mt-1.5 leading-snug">
+                        {personalInfo.jobTitle}
+                      </div>
+
+                      {personalInfo.faculty && (
+                        <div className="flex items-center justify-center sm:justify-start gap-1.5 text-xs text-slate-600 mt-2 font-medium">
+                          <Building2 className="w-3.5 h-3.5 text-slate-500" />
+                          <span>{personalInfo.faculty}</span>
+                        </div>
+                      )}
+
+                      {/* Contacts Row */}
+                      <div className="mt-3 pt-2.5 border-t border-slate-100 flex flex-wrap items-center justify-center sm:justify-start gap-x-4 gap-y-1.5 text-[11px] text-slate-600">
+                        {personalInfo.email && <span className="flex items-center gap-1"><Mail className="w-3 h-3 text-slate-500" /> {personalInfo.email}</span>}
+                        {personalInfo.phone && <span className="flex items-center gap-1"><Phone className="w-3 h-3 text-slate-500" /> {personalInfo.phone}</span>}
+                        {personalInfo.website && <span className="flex items-center gap-1"><Globe className="w-3 h-3 text-slate-500" /> {personalInfo.website.replace(/^https?:\/\//, '')}</span>}
+                        {personalInfo.linkedin && <span className="flex items-center gap-1"><Linkedin className="w-3 h-3 text-slate-500" /> {personalInfo.linkedin}</span>}
+                      </div>
+                    </div>
+
+                    {/* Framed Photo Column */}
+                    {personalInfo.showPhoto && personalInfo.photoUrl && (
+                      <div className="shrink-0 p-1 border-2 border-slate-900 rounded-sm bg-white shadow-xs">
+                        <img
+                          src={personalInfo.photoUrl}
+                          alt={personalInfo.fullName}
+                          className="w-24 h-28 object-cover rounded-xs"
+                          referrerPolicy="no-referrer"
+                        />
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* 3. Sections Content with Academic Framing */}
+                <div className={getSpacingClass()}>
+                  {enabledSections.map((section) => {
+                    return (
+                      <div key={section.id} className="academic-section-block">
+                        
+                        {/* Signature Academic Section Header */}
+                        <div className="border border-slate-300/80 bg-slate-50/70 rounded-md px-3.5 py-1.5 mb-3 flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            <span 
+                              className="w-1.5 h-4 rounded-full shrink-0"
+                              style={{ backgroundColor: theme.secondaryColor || '#ea580c' }}
+                            />
+                            <h3 className="font-bold text-xs sm:text-sm text-slate-900">
+                              {section.title}
+                            </h3>
+                          </div>
+                        </div>
+
+                        {/* Section Body */}
+                        <div className="ps-2 pe-1">
+                          
+                          {/* Summary / معرفی */}
+                          {section.type === 'summary' && personalInfo.summary && (
+                            <div className="space-y-1.5">
+                              {personalInfo.summaryTitle && (
+                                <h4 
+                                  className="text-xs sm:text-sm font-bold"
+                                  style={{ color: theme.secondaryColor || '#ea580c' }}
+                                >
+                                  {personalInfo.summaryTitle}
+                                </h4>
+                              )}
+                              <p className="text-slate-700 text-xs sm:text-[13px] leading-relaxed text-justify whitespace-pre-line">
+                                {personalInfo.summary}
+                              </p>
+                            </div>
+                          )}
+
+                          {/* Experience / سوابق کاری و صنعتی */}
+                          {section.type === 'experience' && (
+                            <div className="space-y-2.5">
+                              {((section.items as ExperienceItem[]) || []).map((exp) => (
+                                <div key={exp.id} className="text-xs sm:text-[12.5px] leading-relaxed">
+                                  <div className="flex items-baseline gap-1.5">
+                                    <span className="font-bold text-slate-900 shrink-0">• {exp.company}:</span>
+                                    <span className="text-slate-700">{exp.description || exp.position}</span>
+                                  </div>
+                                  {exp.highlights && exp.highlights.length > 0 && (
+                                    <ul className="mt-1 space-y-1 ps-4">
+                                      {exp.highlights.map((h, i) => (
+                                        <li key={i} className="text-[11.5px] text-slate-600 flex items-start gap-1.5">
+                                          <span className="text-slate-400 mt-1 shrink-0">-</span>
+                                          <span>{h}</span>
+                                        </li>
+                                      ))}
+                                    </ul>
+                                  )}
+                                </div>
+                              ))}
+                            </div>
+                          )}
+
+                          {/* Skills / حوزه‌های تخصصی */}
+                          {section.type === 'skills' && (
+                            <div className="space-y-2">
+                              {((section.items as SkillItem[]) || []).map((sk) => (
+                                <div 
+                                  key={sk.id} 
+                                  className="p-2.5 rounded-lg border border-slate-200 bg-slate-50/50 text-xs sm:text-[12.5px] font-medium text-slate-800 text-center sm:text-start"
+                                >
+                                  {sk.name}
+                                </div>
+                              ))}
+                            </div>
+                          )}
+
+                          {/* Projects / دستاوردها */}
+                          {section.type === 'projects' && (
+                            <div className="space-y-2">
+                              {((section.items as ProjectItem[]) || []).map((proj) => (
+                                <div key={proj.id} className="text-xs sm:text-[12.5px] leading-relaxed">
+                                  <div className="flex items-baseline gap-1.5">
+                                    <span className="font-bold text-slate-900">• {proj.title}:</span>
+                                    {proj.description && <span className="text-slate-700">{proj.description}</span>}
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+
+                          {/* Education */}
+                          {section.type === 'education' && (
+                            <div className="space-y-2">
+                              {((section.items as EducationItem[]) || []).map((edu) => (
+                                <div key={edu.id} className="text-xs sm:text-[12.5px]">
+                                  <div className="font-bold text-slate-900">• {edu.degree} {edu.field && `- ${edu.field}`}</div>
+                                  <div className="text-slate-600 text-[11.5px]">{edu.institution} {edu.grade && `(${edu.grade})`} {edu.startDate && `| ${edu.startDate} - ${edu.endDate}`}</div>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+
+                          {/* Custom Sections (مثل مایل به همکاری) */}
+                          {section.type === 'custom' && (
+                            <div className="space-y-1.5">
+                              {((section.items as CustomItem[]) || []).map((item) => (
+                                <div key={item.id} className="text-xs sm:text-[12.5px] leading-relaxed">
+                                  <div className="flex items-baseline gap-1.5">
+                                    <span className="font-bold text-slate-900">• {item.title}</span>
+                                    {item.description && <span className="text-slate-700">- {item.description}</span>}
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+
+                          {/* Languages */}
+                          {section.type === 'languages' && (
+                            <div className="flex flex-wrap gap-3">
+                              {((section.items as LanguageItem[]) || []).map((lang) => (
+                                <div key={lang.id} className="text-xs px-3 py-1.5 bg-slate-100 rounded-md text-slate-800">
+                                  <span className="font-bold">{lang.name}: </span>
+                                  <span>{lang.proficiency}</span>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+
+                          {/* Certificates */}
+                          {section.type === 'certificates' && (
+                            <div className="space-y-1.5">
+                              {((section.items as CertificateItem[]) || []).map((cert) => (
+                                <div key={cert.id} className="text-xs">
+                                  <span className="font-bold">• {cert.title}</span>
+                                  <span className="text-slate-600"> ({cert.issuer} - {cert.issueDate})</span>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* 4. Official Document Footer */}
+              <div className="mt-8 pt-3 border-t-2 border-slate-900 flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-600">
+                <div>
+                  <div className="font-semibold text-slate-800">
+                    {personalInfo.institution || 'دانشگاه صنعتی شریف'} — {personalInfo.location || 'خیابان آزادی، تهران، ایران'}
+                  </div>
+                  <div className="text-[10px] text-slate-500">
+                    بایگانی دیجیتال {personalInfo.faculty || 'دانشکده مهندسی مکانیک'}
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-1 text-slate-700 font-medium">
+                  <CalendarCheck className="w-3.5 h-3.5 text-amber-600" />
+                  <span>تاریخ صدور: {personalInfo.issueDate || '۱۴۰۵/۵/۲۶'}</span>
+                </div>
+              </div>
+
             </div>
           )}
 
