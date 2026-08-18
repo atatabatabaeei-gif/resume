@@ -2,5 +2,7 @@
   "name": "سازنده هوشمند رزومه | Resume Builder",
   "description": "سامانه ساخت و سفارشی‌سازی حرفه‌ای رزومه با قابلیت ویرایش و تغییر اولویت بخش‌ها، انتخاب تم رنگی، فونت‌های فارسی و خروجی باکیفیت PDF",
   "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
 }

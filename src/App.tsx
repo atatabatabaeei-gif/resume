@@ -14,7 +14,15 @@ export default function App() {
     try {
       const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
       if (saved) {
-        return JSON.parse(saved);
+        const parsed = JSON.parse(saved);
+        if (parsed && parsed.personalInfo && Array.isArray(parsed.sections)) {
+          return {
+            ...SAMPLE_RESUME_FA,
+            ...parsed,
+            personalInfo: { ...SAMPLE_RESUME_FA.personalInfo, ...parsed.personalInfo },
+            theme: { ...SAMPLE_RESUME_FA.theme, ...(parsed.theme || {}) },
+          };
+        }
       }
     } catch (e) {
       console.warn('Failed to load resume from localStorage:', e);
