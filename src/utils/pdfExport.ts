@@ -1,23 +1,11 @@
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
-import confetti from 'canvas-confetti';
 import { ResumeData } from '../types';
 
 /**
  * Triggers native browser print dialog styled for A4 page export (Crystal-clear vector PDF)
  */
 export const triggerBrowserPrint = () => {
-  try {
-    confetti({
-      particleCount: 40,
-      spread: 60,
-      origin: { y: 0.8 },
-      colors: ['#3b82f6', '#10b981', '#6366f1'],
-    });
-  } catch {
-    // Ignore confetti errors
-  }
-
   // Small timeout to allow render stabilization
   setTimeout(() => {
     window.print();
@@ -205,18 +193,6 @@ export const exportToHighDpiPdf = async (
       downloadLink.remove();
       URL.revokeObjectURL(blobUrl);
     }, 2000);
-
-    // Trigger celebration confetti only after successful download
-    try {
-      confetti({
-        particleCount: 50,
-        spread: 70,
-        origin: { y: 0.7 },
-        colors: ['#2563eb', '#10b981', '#f59e0b'],
-      });
-    } catch {
-      // Ignore
-    }
 
     return true;
   } catch (err) {
