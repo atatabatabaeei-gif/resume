@@ -71,56 +71,69 @@ export const exportToHighDpiPdf = async (
     return false;
   }
 
-  // Create an unscaled off-screen clone to prevent transform/zoom distortion
-  let offscreenContainer: HTMLDivElement | null = null;
-
   try {
-    if (onProgress) onProgress('در حال آماده‌سازی و پردازش لایه‌های گرافیکی...');
+    if (onProgress) onProgress('در حال آماده‌سازی و پردازش لایه‌های رزومه...');
 
-    // Wait for fonts to load
+    // Wait for document fonts to be ready
     if (document.fonts) {
       try {
         await document.fonts.ready;
       } catch {
-        // Ignore font ready errors
+        // Ignore font errors
       }
     }
 
-    offscreenContainer = document.createElement('div');
-    offscreenContainer.style.position = 'fixed';
-    offscreenContainer.style.left = '-9999px';
-    offscreenContainer.style.top = '0';
-    offscreenContainer.style.width = '794px'; // 210mm in 96 DPI
-    offscreenContainer.style.background = '#ffffff';
-    offscreenContainer.style.zIndex = '-9999';
-    offscreenContainer.style.overflow = 'visible';
+    // Wait for all images in resume to load
+    const images = Array.from(originalElement.getElementsByTagName('img'));
+    await Promise.all(
+      images.map((img) => {
+        if (img.complete) return Promise.resolve();
+        return new Promise<void>((resolve) => {
+          img.onload = () => resolve();
+          img.onerror = () => resolve();
+          setTimeout(resolve, 1000);
+        });
+      })
+    );
 
-    const clonedElement = originalElement.cloneNode(true) as HTMLElement;
-    clonedElement.style.transform = 'none';
-    clonedElement.style.boxShadow = 'none';
-    clonedElement.style.margin = '0';
-    clonedElement.style.width = '794px';
-    clonedElement.style.minHeight = '1123px'; // 297mm in 96 DPI
+    if (onProgress) onProgress('در حال رندر صفحات با رزولوشن بالا...');
 
-    // Convert all images inside cloned element to base64
-    const images = Array.from(clonedElement.getElementsByTagName('img'));
-    await Promise.all(images.map((img) => convertImgToBase64(img)));
+    // Small delay to ensure any layout calculations are settle
+    await new Promise((r) => setTimeout(r, 100));
 
-    offscreenContainer.appendChild(clonedElement);
-    document.body.appendChild(offscreenContainer);
-
-    if (onProgress) onProgress('در حال رندر سند با رزولوشن بالا...');
-
-    // Capture using html2canvas
-    const canvas = await html2canvas(clonedElement, {
-      scale: 2,
+    // Capture using html2canvas directly on the element
+    const canvas = await html2canvas(originalElement, {
+      scale: 2, // 2x DPI for crisp text & images
       useCORS: true,
-      allowTaint: false,
+      allowTaint: true,
       backgroundColor: '#ffffff',
       logging: false,
+      onclone: (clonedDoc) => {
+        const clonedTarget = clonedDoc.getElementById(elementId);
+        if (clonedTarget) {
+          // Reset zoom/transform on parent containers in cloned DOM
+          let parent = clonedTarget.parentElement;
+          while (parent && parent !== clonedDoc.body) {
+            parent.style.transform = 'none';
+            parent.style.margin = '0';
+            parent = parent.parentElement;
+          }
+          clonedTarget.style.transform = 'none';
+          clonedTarget.style.boxShadow = 'none';
+          clonedTarget.style.margin = '0 auto';
+        }
+
+        // Remove any confetti canvases or extraneous overlays in cloned document
+        const extraneous = clonedDoc.querySelectorAll('canvas:not([data-chart]), .no-print, [class*="no-print"]');
+        extraneous.forEach((node) => {
+          if (!clonedTarget?.contains(node)) {
+            (node as HTMLElement).style.display = 'none';
+          }
+        });
+      },
     });
 
-    if (onProgress) onProgress('در حال ساخت صفحات استاندارد A4...');
+    if (onProgress) onProgress('در حال تنظیم ابعاد A4 و ایجاد صفحات سند...');
 
     // A4 dimensions in mm: 210 x 297
     const pdf = new jsPDF({
@@ -141,10 +154,10 @@ export const exportToHighDpiPdf = async (
     const imgPdfHeight = (canvasHeight * pdfWidth) / canvasWidth;
 
     if (imgPdfHeight <= pdfHeight + 4) {
-      // Single page
+      // Single page fit
       pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, Math.min(imgPdfHeight, pdfHeight));
     } else {
-      // Multi-page
+      // Multi-page slicing
       let heightLeft = imgPdfHeight;
       let position = 0;
 
@@ -170,15 +183,16 @@ export const exportToHighDpiPdf = async (
     downloadLink.download = cleanFileName;
     document.body.appendChild(downloadLink);
     downloadLink.click();
-    
+
     setTimeout(() => {
       downloadLink.remove();
       URL.revokeObjectURL(blobUrl);
     }, 2000);
 
+    // Trigger celebration confetti only after successful download
     try {
       confetti({
-        particleCount: 60,
+        particleCount: 50,
         spread: 70,
         origin: { y: 0.7 },
         colors: ['#2563eb', '#10b981', '#f59e0b'],
@@ -193,10 +207,6 @@ export const exportToHighDpiPdf = async (
     if (onProgress) onProgress('در حال انتقال به پنجره چاپ مستقیم وکتور...');
     triggerBrowserPrint();
     return false;
-  } finally {
-    if (offscreenContainer && document.body.contains(offscreenContainer)) {
-      offscreenContainer.remove();
-    }
   }
 };
 
