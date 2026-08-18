@@ -49,38 +49,64 @@
     margin: 0;
   }
 
-  html, body {
-    background-color: #ffffff !important;
-    color: #000000 !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    width: 210mm !important;
-    height: auto !important;
+  *, *::before, *::after {
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
 
-  .no-print, header, nav, aside, .editor-panel, .floating-controls {
-    display: none !important;
+  html, body {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 210mm !important;
+    min-height: 297mm !important;
+    height: auto !important;
+    overflow: visible !important;
+    position: static !important;
   }
 
-  .print-page-container {
+  .no-print, header, nav, aside, .editor-panel, .floating-controls, [class*="no-print"], button {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    height: 0 !important;
+    width: 0 !important;
+    overflow: hidden !important;
+  }
+
+  .preview-wrapper, .print-page-container {
+    display: block !important;
+    visibility: visible !important;
     padding: 0 !important;
     margin: 0 !important;
     background: transparent !important;
-    display: block !important;
     width: 210mm !important;
+    max-width: 210mm !important;
+    overflow: visible !important;
+    position: static !important;
+    transform: none !important;
   }
 
   #resume-print-area {
+    display: block !important;
+    visibility: visible !important;
     box-shadow: none !important;
     border: none !important;
-    margin: 0 !important;
+    margin: 0 auto !important;
     width: 210mm !important;
     min-height: 297mm !important;
     max-width: 210mm !important;
     page-break-after: auto;
     overflow: visible !important;
+    background-color: #ffffff !important;
+    transform: none !important;
+    position: static !important;
+  }
+
+  #resume-print-area * {
+    visibility: visible !important;
   }
 
   /* Prevent awkward breaks in items */

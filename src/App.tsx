@@ -113,10 +113,10 @@ export default function App() {
       </div>
 
       {/* Main Workspace Layout */}
-      <div className="flex grow overflow-hidden relative">
+      <div className="flex grow overflow-hidden relative print:block print:overflow-visible print:h-auto print:static">
         
         {/* Left/Sidebar Editor Panel (Visible on lg or when mobileView === 'editor') */}
-        <div className={`w-full lg:w-auto shrink-0 ${mobileView === 'editor' ? 'block' : 'hidden lg:block'}`}>
+        <div className={`no-print w-full lg:w-auto shrink-0 ${mobileView === 'editor' ? 'block' : 'hidden lg:block'}`}>
           <SidebarEditor
             resume={resume}
             setResume={setResume}
@@ -125,8 +125,8 @@ export default function App() {
           />
         </div>
 
-        {/* Right/Main Area: Interactive Resume Canvas (Visible on lg or when mobileView === 'preview') */}
-        <div className={`grow overflow-y-auto ${mobileView === 'preview' ? 'block' : 'hidden lg:block'}`}>
+        {/* Right/Main Area: Interactive Resume Canvas (Always block in print) */}
+        <div className={`preview-wrapper grow overflow-y-auto ${mobileView === 'preview' ? 'block' : 'hidden lg:block'} print:block print:w-full print:m-0 print:p-0 print:overflow-visible print:static`}>
           <ResumePreview
             resume={resume}
             zoom={zoom}

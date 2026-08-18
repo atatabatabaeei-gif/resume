@@ -71,6 +71,18 @@ export const exportToHighDpiPdf = async (
     return false;
   }
 
+  // Ensure all ancestors are visible in the DOM during measurement/cloning
+  const hiddenAncestors: { el: HTMLElement; prevDisplay: string }[] = [];
+  let current: HTMLElement | null = originalElement;
+  while (current && current !== document.body) {
+    const compStyle = window.getComputedStyle(current);
+    if (compStyle.display === 'none' || current.classList.contains('hidden')) {
+      hiddenAncestors.push({ el: current, prevDisplay: current.style.display });
+      current.style.display = 'block';
+    }
+    current = current.parentElement;
+  }
+
   try {
     if (onProgress) onProgress('در حال آماده‌سازی و پردازش لایه‌های رزومه...');
 
@@ -98,7 +110,7 @@ export const exportToHighDpiPdf = async (
 
     if (onProgress) onProgress('در حال رندر صفحات با رزولوشن بالا...');
 
-    // Small delay to ensure any layout calculations are settle
+    // Small delay to ensure any layout calculations are settled
     await new Promise((r) => setTimeout(r, 100));
 
     // Capture using html2canvas directly on the element
@@ -108,19 +120,24 @@ export const exportToHighDpiPdf = async (
       allowTaint: true,
       backgroundColor: '#ffffff',
       logging: false,
+      windowWidth: 1200,
       onclone: (clonedDoc) => {
         const clonedTarget = clonedDoc.getElementById(elementId);
         if (clonedTarget) {
-          // Reset zoom/transform on parent containers in cloned DOM
-          let parent = clonedTarget.parentElement;
-          while (parent && parent !== clonedDoc.body) {
-            parent.style.transform = 'none';
-            parent.style.margin = '0';
-            parent = parent.parentElement;
+          // Ensure all parents of clonedTarget are block and visible
+          let curr: HTMLElement | null = clonedTarget;
+          while (curr && curr !== clonedDoc.body) {
+            curr.style.display = 'block';
+            curr.style.visibility = 'visible';
+            curr.style.transform = 'none';
+            curr.style.margin = '0';
+            curr.style.overflow = 'visible';
+            curr.classList.remove('hidden');
+            curr = curr.parentElement;
           }
-          clonedTarget.style.transform = 'none';
           clonedTarget.style.boxShadow = 'none';
           clonedTarget.style.margin = '0 auto';
+          clonedTarget.style.backgroundColor = '#ffffff';
         }
 
         // Remove any confetti canvases or extraneous overlays in cloned document
@@ -207,6 +224,11 @@ export const exportToHighDpiPdf = async (
     if (onProgress) onProgress('در حال انتقال به پنجره چاپ مستقیم وکتور...');
     triggerBrowserPrint();
     return false;
+  } finally {
+    // Restore hidden state
+    hiddenAncestors.forEach(({ el, prevDisplay }) => {
+      el.style.display = prevDisplay;
+    });
   }
 };
 
