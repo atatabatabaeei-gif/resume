@@ -49,9 +49,15 @@ export const Navbar: React.FC<NavbarProps> = ({
     setIsGeneratingPdf(true);
     setPdfProgress('در حال تحلیل و تولید سند PDF...');
     const fileName = `${resume.personalInfo.fullName || 'Resume'}_CV.pdf`;
-    await exportToHighDpiPdf('resume-print-area', fileName, (text) => setPdfProgress(text));
-    setIsGeneratingPdf(false);
-    setShowExportDropdown(false);
+    try {
+      await exportToHighDpiPdf('resume-print-area', fileName, (text) => setPdfProgress(text));
+    } catch (e) {
+      console.error('Error generating PDF:', e);
+      triggerBrowserPrint();
+    } finally {
+      setIsGeneratingPdf(false);
+      setShowExportDropdown(false);
+    }
   };
 
   const handlePrint = () => {
