@@ -23,8 +23,7 @@ import {
   Check, 
   HelpCircle,
   Wand2,
-  Copy,
-  Building2
+  Copy
 } from 'lucide-react';
 import { 
   ResumeData, 
@@ -531,85 +530,6 @@ export const SidebarEditor: React.FC<SidebarEditorProps> = ({
                   placeholder="مثال: توسعه‌دهنده ارشد فرانت‌اند یا استادیار دانشگاه"
                   className="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs text-white focus:border-indigo-500 focus:outline-hidden"
                 />
-              </div>
-            </div>
-
-            {/* Academic & Institutional Info (Special for Faculty / Official CV) */}
-            <div className="p-4 rounded-2xl bg-slate-800/70 border border-slate-700/80 space-y-3">
-              <div className="flex items-center gap-2 mb-1">
-                <Building2 className="w-4 h-4 text-amber-400" />
-                <h3 className="font-bold text-xs text-white">اطلاعات سازمانی و دانشگاهی (ویژه قالب هیئت علمی)</h3>
-              </div>
-              <p className="text-[11px] text-slate-400 leading-relaxed mb-2">
-                این فیلدها در قالب «شناسنامه رسمی و هیئت علمی» در سربرگ و کادر مشخصات سند نمایش داده می‌شوند.
-              </p>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div>
-                  <label className="text-xs text-slate-400 block mb-1">نام دانشگاه / موسسه</label>
-                  <input
-                    type="text"
-                    value={resume.personalInfo.institution || ''}
-                    onChange={(e) => handlePersonalInfoChange('institution', e.target.value)}
-                    placeholder="مثال: دانشگاه صنعتی شریف"
-                    className="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs text-white focus:border-indigo-500 focus:outline-hidden"
-                  />
-                </div>
-
-                <div>
-                  <label className="text-xs text-slate-400 block mb-1">دانشکده / دپارتمان</label>
-                  <input
-                    type="text"
-                    value={resume.personalInfo.faculty || ''}
-                    onChange={(e) => handlePersonalInfoChange('faculty', e.target.value)}
-                    placeholder="مثال: دانشکده مهندسی مکانیک"
-                    className="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs text-white focus:border-indigo-500 focus:outline-hidden"
-                  />
-                </div>
-
-                <div>
-                  <label className="text-xs text-slate-400 block mb-1">عنوان سند / رزومه</label>
-                  <input
-                    type="text"
-                    value={resume.personalInfo.documentTitle || ''}
-                    onChange={(e) => handlePersonalInfoChange('documentTitle', e.target.value)}
-                    placeholder="مثال: شناسنامه رسمی و رزومه علمی هیئت علمی"
-                    className="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs text-white focus:border-indigo-500 focus:outline-hidden"
-                  />
-                </div>
-
-                <div>
-                  <label className="text-xs text-slate-400 block mb-1">عنوان سامانه / زیرتیتر سربرگ</label>
-                  <input
-                    type="text"
-                    value={resume.personalInfo.systemTitle || ''}
-                    onChange={(e) => handlePersonalInfoChange('systemTitle', e.target.value)}
-                    placeholder="مثال: سامانه جامع ارتباط با صنعت و پژوهش‌های تخصصی"
-                    className="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs text-white focus:border-indigo-500 focus:outline-hidden"
-                  />
-                </div>
-
-                <div>
-                  <label className="text-xs text-slate-400 block mb-1">کادر تخصص / مرتبه علمی</label>
-                  <input
-                    type="text"
-                    value={resume.personalInfo.academicRank || ''}
-                    onChange={(e) => handlePersonalInfoChange('academicRank', e.target.value)}
-                    placeholder="مثال: استادیار — طراحی کاربردی — پایش وضعیت"
-                    className="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs text-white focus:border-indigo-500 focus:outline-hidden"
-                  />
-                </div>
-
-                <div>
-                  <label className="text-xs text-slate-400 block mb-1">تاریخ صدور سند</label>
-                  <input
-                    type="text"
-                    value={resume.personalInfo.issueDate || ''}
-                    onChange={(e) => handlePersonalInfoChange('issueDate', e.target.value)}
-                    placeholder="مثال: ۱۴۰۵/۵/۲۶"
-                    className="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs text-white focus:border-indigo-500 focus:outline-hidden"
-                  />
-                </div>
               </div>
             </div>
 
@@ -1378,7 +1298,6 @@ export const SidebarEditor: React.FC<SidebarEditorProps> = ({
               
               <div className="grid grid-cols-2 gap-2.5">
                 {[
-                  { id: 'academic-faculty', label: '🎓 شناسنامه علمی هیئت علمی', desc: 'سربرگ دانشگاهی، کادر مشخصات، حوزه‌های تخصصی و پاورقی' },
                   { id: 'sidebar-right', label: 'ستون راست (ایده‌آل فارسی)', desc: 'ستون کناری عکس و مهارت در راست' },
                   { id: 'sidebar-left', label: 'ستون چپ (استاندارد انگلیسی)', desc: 'ستون کناری در سمت چپ' },
                   { id: 'modern-header', label: 'هدر رنگی مدرن', desc: 'نوار بالایی تمام‌عرض با عکس و مشخصات' },

@@ -14,7 +14,7 @@ import {
   Plus
 } from 'lucide-react';
 import { ResumeData, LayoutTemplate } from '../types';
-import { COLOR_PRESETS, SAMPLE_RESUME_FA, SAMPLE_RESUME_DESIGNER_FA, SAMPLE_RESUME_ACADEMIC_FA, SAMPLE_RESUME_EN, BLANK_RESUME } from '../data/initialData';
+import { COLOR_PRESETS, SAMPLE_RESUME_FA, SAMPLE_RESUME_DESIGNER_FA, SAMPLE_RESUME_EN, BLANK_RESUME } from '../data/initialData';
 import { triggerBrowserPrint, exportToHighDpiPdf, downloadResumeJson } from '../utils/pdfExport';
 
 interface NavbarProps {
@@ -266,24 +266,6 @@ export const Navbar: React.FC<NavbarProps> = ({
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {/* Persian Academic / Faculty Member */}
-              <div 
-                onClick={() => loadTemplate(SAMPLE_RESUME_ACADEMIC_FA)}
-                className="p-4 rounded-xl border border-slate-700/80 bg-slate-800/60 hover:bg-slate-800 hover:border-amber-500 cursor-pointer transition-all group"
-              >
-                <div className="flex items-center justify-between mb-2">
-                  <span className="font-semibold text-sm text-white group-hover:text-amber-400">شناسنامه علمی و هیئت علمی (دانشگاهی)</span>
-                  <span className="text-[10px] bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded-md">سربرگ رسمی سازمانی</span>
-                </div>
-                <p className="text-xs text-slate-400 leading-relaxed mb-3">
-                  فرمت استاندارد دانشگاهی با سربرگ موسسه/دانشکده، کادر مشخصات، حوزه‌های تخصصی، دستاوردها و شیوه‌های همکاری.
-                </p>
-                <div className="flex items-center gap-2 text-xs text-amber-400 font-medium">
-                  <span>بارگذاری این نمونه دانشگاهی</span>
-                  <span>←</span>
-                </div>
-              </div>
-
               {/* Persian Developer */}
               <div 
                 onClick={() => loadTemplate(SAMPLE_RESUME_FA)}
